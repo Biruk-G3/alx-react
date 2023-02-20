@@ -29,17 +29,21 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
   },
-  performance: {
-		maxAssetSize: 1000000,
-    maxEntrypointSize: 1000000,
+  optimization: {
+		splitChunks: {
+			chunks: 'all',
+		},
 	},
   devServer: {
     static: path.join(__dirname, './public'),
     open: true,
     port: 8564,
   },
+  performance: {
+		maxAssetSize: 1000000,
+	},
   module: {
     rules: [
       {
