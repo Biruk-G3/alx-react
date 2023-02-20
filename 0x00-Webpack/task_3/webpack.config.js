@@ -1,9 +1,31 @@
 const path = require("path");
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 
 module.exports = {
+  plugins: [
+		new HTMLWebpackPlugin({
+			filename: './index.html',
+		}),
+		new CleanWebpackPlugin(),
+	],
+  devtool: 'inline-source-map',
   mode: 'production',
   entry: {
-    main: path.resolve(__dirname, './js/dashboard_main.js'),
+   	header: {
+			import: './modules/header/header.js',
+			dependOn: 'shared',
+		},
+	body: {
+			import: './modules/body/body.js',
+			dependOn: 'shared',
+		},
+	footer: {
+			import: './modules/footer/footer.js',
+			dependOn: 'shared',
+		},
+	shared: 'jquery',
   },
   output: {
     path: path.resolve(__dirname, 'public'),
@@ -13,6 +35,11 @@ module.exports = {
 		maxAssetSize: 1000000,
     maxEntrypointSize: 1000000,
 	},
+  devServer: {
+    static: path.join(__dirname, './public'),
+    open: true,
+    port: 8564,
+  },
   module: {
     rules: [
       {
